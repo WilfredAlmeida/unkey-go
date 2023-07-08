@@ -1,7 +1,14 @@
 package main
 
-import ("fmt")
+import (
+	"fmt"
+	"github.com/WilfredAlmeida/unkey-go/features"
+)
+
+
 
 func main() {
-	  fmt.Println("Hello World!")
+	var isKeyValid, _ = features.VerifyRequest("key_3ZZ7fxaUrkfv1YAhffAcnKW74")
+	fmt.Println("Is key valid:", *isKeyValid)
+
 }
