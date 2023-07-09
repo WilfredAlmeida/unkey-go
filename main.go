@@ -8,7 +8,7 @@ import (
 
 
 func main() {
-	var isKeyValid, _ = features.VerifyRequest("key_3ZZ7fxaUrkfv1YAhffAcnKW74")
-	fmt.Println("Is key valid:", *isKeyValid)
+	var isKeyValid, _ = features.VerifyRequest("key_3ZZ7faUrkfv1YAhffAcnKW74")
+	fmt.Println("Is key valid:", isKeyValid)
 
 }
