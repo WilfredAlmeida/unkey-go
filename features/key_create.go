@@ -10,7 +10,7 @@ import (
 	"github.com/WilfredAlmeida/unkey-go/utils"
 )
 
-type CreateKeyRequest struct {
+type KeyCreateRequest struct {
 	APIId      string             `json:"apiId"`
 	Prefix     string             `json:"prefix"`
 	ByteLength int                `json:"byteLength"`
@@ -18,34 +18,34 @@ type CreateKeyRequest struct {
 	Meta       Meta               `json:"meta"`
 	Expires    int64              `json:"expires"`
 	Remaining  int                `json:"remaining"`
-	RateLimit  CreateKeyRateLimit `json:"ratelimit"`
+	RateLimit  KeyCreateRateLimit `json:"ratelimit"`
 }
 
 type Meta map[string]string
 
-type CreateKeyRateLimit struct {
+type KeyCreateRateLimit struct {
 	Type           string `json:"type"`
 	Limit          int    `json:"limit"`
 	RefillRate     int    `json:"refillRate"`
 	RefillInterval int    `json:"refillInterval"`
 }
 
-type CreateKeyResponse struct {
+type KeyCreateResponse struct {
 	Key   string `json:"key"`
 	KeyId string `json:"keyId"`
 }
 
-func CreateKey(requestBody CreateKeyRequest, authToken string) (CreateKeyResponse, error) {
+func KeyCreate(requestBody KeyCreateRequest, authToken string) (KeyCreateResponse, error) {
 	// Convert the request body to JSON
 	jsonData, err := json.Marshal(requestBody)
 	if err != nil {
-		return CreateKeyResponse{}, err
+		return KeyCreateResponse{}, err
 	}
 
 	// Create the HTTP request
 	req, err := http.NewRequest("POST", utils.UNKEY_API_URL+"/keys", bytes.NewBuffer(jsonData))
 	if err != nil {
-		return CreateKeyResponse{}, err
+		return KeyCreateResponse{}, err
 	}
 
 	// Set the request headers
@@ -56,27 +56,27 @@ func CreateKey(requestBody CreateKeyRequest, authToken string) (CreateKeyRespons
 	client := &http.Client{}
 	resp, err := client.Do(req)
 	if err != nil {
-		return CreateKeyResponse{}, err
+		return KeyCreateResponse{}, err
 	}
 	defer resp.Body.Close()
 
 	body, err := io.ReadAll(resp.Body)
 	if err != nil {
-		return CreateKeyResponse{}, err
+		return KeyCreateResponse{}, err
 	}
 
 	// Handle successful response
 	if resp.StatusCode == http.StatusOK {
 		// Response is successful, parse the response body as CreateKeyResponse
-		var createKeyResponse CreateKeyResponse
+		var createKeyResponse KeyCreateResponse
 		err = json.Unmarshal(body, &createKeyResponse)
 		if err != nil {
-			return CreateKeyResponse{}, err
+			return KeyCreateResponse{}, err
 		}
 
 		return createKeyResponse, err
 	} else {
 		// Handle error response
-		return CreateKeyResponse{}, fmt.Errorf(string(body))
+		return KeyCreateResponse{}, fmt.Errorf(string(body))
 	}
 }

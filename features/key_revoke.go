@@ -8,7 +8,7 @@ import (
 	"github.com/WilfredAlmeida/unkey-go/utils"
 )
 
-func DeleteKey(keyID string, authToken string) (bool, error) {
+func RevokeKey(keyID string, authToken string) (bool, error) {
 	// Create the HTTP request
 	req, err := http.NewRequest("DELETE", utils.UNKEY_API_URL+"/keys/"+keyID, nil)
 	if err != nil {

@@ -46,7 +46,7 @@ func main() {
 
 	// fmt.Println("Response: ", response)
 
-	response, err := features.VerifyKey("key_3ZZSawUTYL1DdsgCycdp7Xdu")
+	response, err := features.KeyVerify("key_3ZZSawUTYL1DdsgCycdp7Xdu")
 	if err != nil {
 		fmt.Println("Error:", err)
 		return
