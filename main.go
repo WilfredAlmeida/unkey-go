@@ -27,7 +27,7 @@ func main() {
 	// 	},
 	// }
 
-	authToken := "unkey_3ZeRMoXP9NFgsSxjnNtjSGLF"
+	// authToken := "unkey_3ZeRMoXP9NFgsSxjnNtjSGLF"
 
 	// response, err := features.CreateKey(key, authToken)
 	// if err != nil {
@@ -38,12 +38,20 @@ func main() {
 	// fmt.Println("Key: ", response.Key)
 	// fmt.Println("Key ID: ", response.KeyId)
 
-	response, err := features.DeleteKey("key_VNZez78oQTwyB6ggSaGtTF", authToken)
+	// response, err := features.DeleteKey("key_VNZez78oQTwyB6ggSaGtTF", authToken)
+	// if err != nil {
+	// 	fmt.Println("Error:", err)
+	// 	return
+	// }
+
+	// fmt.Println("Response: ", response)
+
+	response, err := features.VerifyKey("key_3ZZSawUTYL1DdsgCycdp7Xdu")
 	if err != nil {
 		fmt.Println("Error:", err)
 		return
 	}
 
-	fmt.Println("Response: ", response)
+	fmt.Printf("Response.ratelimit: %+v\n", response.Ratelimit)
 
 }
