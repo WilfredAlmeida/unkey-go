@@ -8,13 +8,13 @@ func TestVerifyKey(t *testing.T) {
 	testCases := []struct {
 		name           string
 		apiKey         string
-		expectedResult VerifyKeyResponse
-		expectedError   error
+		expectedResult KeyVerifyResponse
+		expectedError  error
 	}{
 		{
 			name:   "True Response",
 			apiKey: "key_3ZZSawUTYL1DdsgCycdp7Xdu",
-			expectedResult: VerifyKeyResponse{
+			expectedResult: KeyVerifyResponse{
 				Valid: true,
 			},
 			expectedError: nil,
@@ -22,7 +22,7 @@ func TestVerifyKey(t *testing.T) {
 		{
 			name:   "False Response",
 			apiKey: "invalidKey_blah_blah",
-			expectedResult: VerifyKeyResponse{
+			expectedResult: KeyVerifyResponse{
 				Valid: false,
 			},
 			expectedError: nil,
@@ -31,7 +31,7 @@ func TestVerifyKey(t *testing.T) {
 
 	for _, tc := range testCases {
 		t.Run(tc.name, func(t *testing.T) {
-			response, err := VerifyKey(tc.apiKey)
+			response, err := KeyVerify(tc.apiKey)
 
 			if err != nil && tc.expectedError == nil {
 				t.Errorf("Unexpected error: %v", err)

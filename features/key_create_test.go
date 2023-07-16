@@ -3,8 +3,8 @@ package features
 import (
 	"errors"
 	"os"
-	"testing"
 	"reflect"
+	"testing"
 
 	"github.com/joho/godotenv"
 )
@@ -14,19 +14,19 @@ func TestCreateKey(t *testing.T) {
 	err := godotenv.Load("../.env")
 
 	if err != nil {
-	  t.Errorf("Error loading .env file")
+		t.Errorf("Error loading .env file")
 	}
 
 	testCases := []struct {
 		name           string
-		requestBody    CreateKeyRequest
+		requestBody    KeyCreateRequest
 		authToken      string
-		expectedResult CreateKeyResponse
+		expectedResult KeyCreateResponse
 		expectedError  error
 	}{
 		{
 			name: "Successful Response",
-			requestBody: CreateKeyRequest{
+			requestBody: KeyCreateRequest{
 				APIId:      os.Getenv("API_ID"),
 				Prefix:     "testPrefix",
 				ByteLength: 16,
@@ -34,20 +34,20 @@ func TestCreateKey(t *testing.T) {
 				Meta:       Meta{"key": "value"},
 				Expires:    1696951966471,
 				Remaining:  10,
-				RateLimit: CreateKeyRateLimit{
+				RateLimit: KeyCreateRateLimit{
 					Type:           "testType",
 					Limit:          100,
 					RefillRate:     10,
 					RefillInterval: 60,
 				},
 			},
-			authToken: os.Getenv("AUTH_TOKEN"),
-			expectedResult: CreateKeyResponse{},
-			expectedError: nil,
+			authToken:      os.Getenv("AUTH_TOKEN"),
+			expectedResult: KeyCreateResponse{},
+			expectedError:  nil,
 		},
 		{
 			name: "Error Response",
-			requestBody: CreateKeyRequest{
+			requestBody: KeyCreateRequest{
 				APIId:      os.Getenv("API_ID"),
 				Prefix:     "testPrefix",
 				ByteLength: 16,
@@ -55,15 +55,15 @@ func TestCreateKey(t *testing.T) {
 				Meta:       Meta{"key": "value"},
 				Expires:    123456,
 				Remaining:  10,
-				RateLimit: CreateKeyRateLimit{
+				RateLimit: KeyCreateRateLimit{
 					Type:           "testType",
 					Limit:          100,
 					RefillRate:     10,
 					RefillInterval: 60,
 				},
 			},
-			authToken: os.Getenv("AUTH_TOKEN"),
-			expectedResult: CreateKeyResponse{},
+			authToken:      os.Getenv("AUTH_TOKEN"),
+			expectedResult: KeyCreateResponse{},
 			expectedError:  errors.New(`{"error":"'expires' must be in the future, did you pass in a timestamp in seconds instead of milliseconds?","code":"BAD_REQUEST"}`),
 		},
 	}
@@ -71,7 +71,7 @@ func TestCreateKey(t *testing.T) {
 	for _, tc := range testCases {
 		t.Run(tc.name, func(t *testing.T) {
 
-			response, err := CreateKey(tc.requestBody, tc.authToken)
+			response, err := KeyCreate(tc.requestBody, tc.authToken)
 
 			if err != nil && tc.expectedError == nil {
 				t.Errorf("Unexpected error: %v", err)
