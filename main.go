@@ -47,12 +47,11 @@ func main() {
 	// fmt.Println("Response: ", response)
 
 	response, err := features.VerifyKey("key_3ZZSawUTYL1DdsgCycdp7Xdu")
-
 	if err != nil {
 		fmt.Println("Error:", err)
 		return
 	}
 
-	fmt.Println("Key: ", response.Key)
-	fmt.Println("Key ID: ", response.KeyId)
+	fmt.Printf("Response.ratelimit: %+v\n", response.Ratelimit)
+
 }
