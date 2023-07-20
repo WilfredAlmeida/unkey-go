@@ -9,15 +9,14 @@ import (
 	"github.com/WilfredAlmeida/unkey-go/utils"
 )
 
-
 type Key struct {
-    ID          string    `json:"id,omitempty"`
-    APIID       string    `json:"apiId,omitempty"`
-    WorkspaceID string    `json:"workspaceId,omitempty"`
-    Start       string    `json:"start,omitempty"`
-    CreatedAt   int64     `json:"createdAt,omitempty"`
-    Expires     *int64    `json:"expires,omitempty"`
-    Ratelimit   ratelimitResponse `json:"ratelimit,omitempty"`
+	ID          string            `json:"id,omitempty"`
+	APIID       string            `json:"apiId,omitempty"`
+	WorkspaceID string            `json:"workspaceId,omitempty"`
+	Start       string            `json:"start,omitempty"`
+	CreatedAt   int64             `json:"createdAt,omitempty"`
+	Expires     *int64            `json:"expires,omitempty"`
+	Ratelimit   ratelimitResponse `json:"ratelimit,omitempty"`
 }
 
 type APIListKeysResponse struct {

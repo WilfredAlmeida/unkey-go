@@ -24,12 +24,11 @@ func TestAPIListKeys(t *testing.T) {
 		expectedError  error
 	}{
 		{
-			name:      "Successful Response",
-			apiId:     os.Getenv("API_ID"),
-			authToken: os.Getenv("AUTH_TOKEN"),
-			expectedResult: APIListKeysResponse{
-			}, // It'll list lots of keys which we cannot match here
-			expectedError: nil,
+			name:           "Successful Response",
+			apiId:          os.Getenv("API_ID"),
+			authToken:      os.Getenv("AUTH_TOKEN"),
+			expectedResult: APIListKeysResponse{}, // It'll list lots of keys which we cannot match here
+			expectedError:  nil,
 		},
 		{
 			name:           "Error Response",
