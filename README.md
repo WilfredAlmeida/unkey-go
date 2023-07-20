@@ -179,6 +179,8 @@ type KeyCreateResponse struct {
 }
 ```
 
+**API 
+
 ---
 ## Contributing
 Refer the [CONTRIBUTING.md](https://github.com/WilfredAlmeida/unkey-go/blob/main/CONTRIBUTING.md) file for more information.

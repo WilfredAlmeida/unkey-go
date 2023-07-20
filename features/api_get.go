@@ -9,13 +9,13 @@ import (
 	"github.com/WilfredAlmeida/unkey-go/utils"
 )
 
-type APIListResponse struct {
+type APIGetResponse struct {
 	ID          string `json:"id"`
 	Name        string `json:"name"`
 	WorkspaceID string `json:"workspaceId"`
 }
 
-func APIList(apiID, authToken string) (APIListResponse, error) {
+func APIGet(apiID, authToken string) (APIGetResponse, error) {
 
 	// Create a new HTTP client
 	client := &http.Client{}
@@ -23,7 +23,7 @@ func APIList(apiID, authToken string) (APIListResponse, error) {
 	// Create a new GET request
 	req, err := http.NewRequest("GET", utils.UNKEY_API_URL+"/apis/"+apiID, nil)
 	if err != nil {
-		return APIListResponse{}, err
+		return APIGetResponse{}, err
 	}
 
 	// Set the authorization header
@@ -32,26 +32,26 @@ func APIList(apiID, authToken string) (APIListResponse, error) {
 	// Send the request
 	resp, err := client.Do(req)
 	if err != nil {
-		return APIListResponse{}, err
+		return APIGetResponse{}, err
 	}
 	defer resp.Body.Close()
 
 	// Read the response body
 	body, err := io.ReadAll(resp.Body)
 	if err != nil {
-		return APIListResponse{}, err
+		return APIGetResponse{}, err
 	}
 
 	// Check the response status code
 	if resp.StatusCode != http.StatusOK {
-		return APIListResponse{}, fmt.Errorf(string(body))
+		return APIGetResponse{}, fmt.Errorf(string(body))
 	}
 
 	// Parse the response JSON
-	var response APIListResponse
+	var response APIGetResponse
 	err = json.Unmarshal(body, &response)
 	if err != nil {
-		return APIListResponse{}, err
+		return APIGetResponse{}, err
 	}
 
 	return response, nil

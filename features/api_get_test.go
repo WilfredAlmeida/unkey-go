@@ -9,7 +9,7 @@ import (
 	"github.com/joho/godotenv"
 )
 
-func TestAPIList(t *testing.T) {
+func TestAPIGet(t *testing.T) {
 
 	err := godotenv.Load("../.env")
 
@@ -21,14 +21,14 @@ func TestAPIList(t *testing.T) {
 		name           string
 		apiId          string
 		authToken      string
-		expectedResult APIListResponse
+		expectedResult APIGetResponse
 		expectedError  error
 	}{
 		{
 			name:      "Successful Response",
 			apiId:     os.Getenv("API_ID"),
 			authToken: os.Getenv("AUTH_TOKEN"),
-			expectedResult: APIListResponse{
+			expectedResult: APIGetResponse{
 				ID:          os.Getenv("API_ID"),
 				Name:        "first-api",
 				WorkspaceID: "ws_C4EkWVE5UFjG4gdZjKJ9wu",
@@ -39,7 +39,7 @@ func TestAPIList(t *testing.T) {
 			name:           "Error Response",
 			apiId:          "someId",
 			authToken:      os.Getenv("AUTH_TOKEN"),
-			expectedResult: APIListResponse{},
+			expectedResult: APIGetResponse{},
 			expectedError:  errors.New(`{"error":"unable to find api: someId","code":"NOT_FOUND"}`),
 		},
 	}
@@ -47,7 +47,7 @@ func TestAPIList(t *testing.T) {
 	for _, tc := range testCases {
 		t.Run(tc.name, func(t *testing.T) {
 
-			response, err := APIList(tc.apiId, tc.authToken)
+			response, err := APIGet(tc.apiId, tc.authToken)
 
 			if err != nil && tc.expectedError == nil {
 				t.Errorf("Unexpected error: %v", err)

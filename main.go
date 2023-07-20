@@ -63,7 +63,7 @@ func main() {
 		fmt.Println(err)
 	}
 
-	// response, err := features.APIList(os.Getenv("API_ID"),os.Getenv("AUTH_TOKEN"))
+	// response, err := features.APIGet(os.Getenv("API_ID"),os.Getenv("AUTH_TOKEN"))
 	// if err != nil {
 	// 	fmt.Println("Error:", err)
 	// 	return
