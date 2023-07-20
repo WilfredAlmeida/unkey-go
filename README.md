@@ -128,6 +128,48 @@ func main() {
 ```
 > Note: The API returns `{}` as a success response for revkoking key. For user convenience, unkey-go returns boolean
 
+**Get API Information**
+```go
+package main
+
+import (
+	"fmt"
+
+	unkey "github.com/WilfredAlmeida/unkey-go/features"
+)
+
+func main() {
+	response, err := features.APIGet("API_ID","AUTH_TOKEN")
+	if err != nil {
+		fmt.Println("Error:", err)
+		return
+	}
+
+	fmt.Printf("Response: %+v\n", response)
+}
+```
+
+**Get List Keys**
+```go
+package main
+
+import (
+	"fmt"
+
+	unkey "github.com/WilfredAlmeida/unkey-go/features"
+)
+
+func main() {
+	response, err := features.APIListKeys("API_ID","AUTH_TOKEN")
+	if err != nil {
+		fmt.Println("Error:", err)
+		return
+	}
+
+	fmt.Printf("Response: %+v\n", response)
+}
+```
+
 ---
 ### Structs Reference
 The structs used in code for you to get a better idea of the request & response bodies.
@@ -179,7 +221,33 @@ type KeyCreateResponse struct {
 }
 ```
 
-**API 
+**APIGet**
+```go
+type APIGetResponse struct {
+	ID          string `json:"id"`
+	Name        string `json:"name"`
+	WorkspaceID string `json:"workspaceId"`
+}
+```
+
+**APIListKeys**
+```go
+type Key struct {
+	ID          string            `json:"id,omitempty"`
+	APIID       string            `json:"apiId,omitempty"`
+	WorkspaceID string            `json:"workspaceId,omitempty"`
+	Start       string            `json:"start,omitempty"`
+	CreatedAt   int64             `json:"createdAt,omitempty"`
+	Expires     *int64            `json:"expires,omitempty"`
+	Ratelimit   ratelimitResponse `json:"ratelimit,omitempty"`
+}
+
+type APIListKeysResponse struct {
+	Keys  []Key `json:"keys,omitempty"`
+	Total int   `json:"total,omitempty"`
+}
+```
+> Note: `ratelimitResponse` is defined in `KeyVerify` struct reference
 
 ---
 ## Contributing
