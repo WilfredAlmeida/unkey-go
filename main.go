@@ -2,8 +2,10 @@ package main
 
 import (
 	"fmt"
+	"os"
 
 	"github.com/WilfredAlmeida/unkey-go/features"
+	"github.com/joho/godotenv"
 )
 
 func main() {
@@ -46,12 +48,34 @@ func main() {
 
 	// fmt.Println("Response: ", response)
 
-	response, err := features.KeyVerify("key_3ZZSawUTYL1DdsgCycdp7Xdu")
+	// response, err := features.KeyVerify("key_3ZZSawUTYL1DdsgCycdp7Xdu")
+	// if err != nil {
+	// 	fmt.Println("Error:", err)
+	// 	return
+	// }
+
+	// fmt.Printf("Response.ratelimit: %+v\n", response.Ratelimit)
+
+	err := godotenv.Load("./.env")
+
+	if err != nil {
+		fmt.Println("Error loading .env file")
+		fmt.Println(err)
+	}
+
+	// response, err := features.APIGet(os.Getenv("API_ID"),os.Getenv("AUTH_TOKEN"))
+	// if err != nil {
+	// 	fmt.Println("Error:", err)
+	// 	return
+	// }
+
+	// fmt.Printf("Response: %+v\n", response)
+	response, err := features.APIListKeys(os.Getenv("API_ID"), os.Getenv("AUTH_TOKEN"))
 	if err != nil {
 		fmt.Println("Error:", err)
 		return
 	}
 
-	fmt.Printf("Response.ratelimit: %+v\n", response.Ratelimit)
+	fmt.Printf("Response: %+v\n", response)
 
 }
