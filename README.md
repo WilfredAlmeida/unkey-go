@@ -128,6 +128,55 @@ func main() {
 ```
 > Note: The API returns `{}` as a success response for revkoking key. For user convenience, unkey-go returns boolean
 
+
+** Update Key**
+```go
+package main
+
+import (
+	"fmt"
+
+	unkey "github.com/WilfredAlmeida/unkey-go/features"
+)
+
+func main() {
+
+	// The API for update has optional params. To determine which params to update, a custome type is made which mimics the behaviour of `undefined`/`null`.
+	// To update, define a object in the following manner & set the value for the fields you want to update following on.
+
+	keyUpdateReq := unkey.KeyUpdateRequest{
+		KeyId: "someKey",
+		Name: unkey.NullableField[string]{Defined: false, Value: new(string)},
+		OwnerId: unkey.NullableField[string]{Defined: false, Value: nil},
+		Meta: unkey.NullableField[map[string]interface{}]{Defined: false, Value: new(map[string]interface{})},
+		Expires: unkey.NullableField[int64]{Defined: false, Value: new(int64)},
+		Ratelimit: unkey.NullableField[unkey.RateLimitSchema]{Defined: false, Value: nil},
+		Remaining: unkey.NullableField[int64]{Defined: false, Value: new(int64)},
+	}
+
+	// Set the value for Name
+	keyUpdateReq.Name.Defined = true
+	*keyUpdateReq.Name.Value = "John Doe"
+
+	// Set the value for Meta
+	keyUpdateReq.Meta.Defined = true
+	metaData := map[string]interface{}{
+		"field1": "value1",
+		"field2": 42,
+	}
+	*keyUpdateReq.Meta.Value = metaData
+
+	response, err := features.KeyUpdate("someKey",keyUpdateReq, os.Getenv("AUTH_TOKEN"))
+	if err != nil {
+		fmt.Println("Error:", err)
+		return
+	}
+
+	fmt.Printf("Response: %+v\n", response)
+
+}
+```
+
 **Get API Information**
 ```go
 package main
@@ -218,6 +267,36 @@ type KeyCreateRateLimit struct {
 type KeyCreateResponse struct {
 	Key   string `json:"key"`
 	KeyId string `json:"keyId"`
+}
+```
+
+**KeyUpdate**
+```go
+type NullableField[T any] struct {
+	Defined bool
+	Value   *T
+}
+
+func (m *NullableField[T]) UnmarshalJSON(data []byte) error {
+	m.Defined = true
+	return json.Unmarshal(data, &m.Value)
+}
+
+type RateLimitSchema struct {
+	Type           string `json:"type" validate:"required"`
+	Limit          int64  `json:"limit" validate:"required"`
+	RefillRate     int64  `json:"refillRate" validate:"required"`
+	RefillInterval int64  `json:"refillInterval" validate:"required"`
+}
+
+type KeyUpdateRequest struct {
+	KeyId     string                         `json:"keyId" validate:"required"`
+	Name      NullableField[string]          `json:"name"`
+	OwnerId   NullableField[string]          `json:"ownerId"`
+	Meta      NullableField[map[string]any]  `json:"meta"`
+	Expires   NullableField[int64]           `json:"expires"`
+	Ratelimit NullableField[RateLimitSchema] `json:"ratelimit"`
+	Remaining NullableField[int64]           `json:"remaining"`
 }
 ```
 
