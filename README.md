@@ -69,7 +69,7 @@ func main() {
 		Expires:    0,
 		Remaining:  0,
 		RateLimit: unkey.KeyCreateRateLimit{
-			Type:           "rolling",
+			Type:           "fast",
 			Limit:          100,
 			RefillRate:     10,
 			RefillInterval: 60,
