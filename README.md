@@ -232,13 +232,18 @@ type ratelimitResponse struct {
 }
 
 type KeyVerifyResponse struct {
-	Valid     bool                   `json:"valid"`
-	OwnerId   string                 `json:"ownerId,omitempty"`
-	Meta      map[string]interface{} `json:"meta,omitempty"`
-	Expires   int64                  `json:"expires,omitempty"`
-	Remaining int64                  `json:"remaining,omitempty"`
-	Ratelimit *ratelimitResponse     `json:"ratelimit,omitempty"`
-	Code      string                 `json:"code,omitempty"`
+    Valid       bool                   `json:"valid"`
+    OwnerId     string                 `json:"ownerId,omitempty"`
+    Meta        map[string]interface{} `json:"meta,omitempty"`
+    Expires     int64                  `json:"expires,omitempty"`
+    Remaining   int64                  `json:"remaining,omitempty"`
+    Ratelimit   *ratelimitResponse     `json:"ratelimit,omitempty"`
+    Code        string                 `json:"code,omitempty"`
+    Enabled     bool                   `json:"enabled"`
+    Environment string                 `json:"environment"`
+    KeyId       string                 `json:"keyId"`
+    Name        string                 `json:"name"`
+    Permissions []string               `json:"permissions"`
 }
 ```
 
